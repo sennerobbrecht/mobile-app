@@ -14,7 +14,8 @@ const ProductCard = ({ title, price, image }) => {
             <Text style={styles.price}>{price}</Text>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate("Details", { title, price })}
+                onPress={() => navigation.navigate("Details", { title, price, image })}
+
             >
                 <Text style={styles.buttonText}>Add to Cart</Text>
             </TouchableOpacity>
