@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 const DetailsScreen = ({ route }) => {
-    const { title, price, image } = route.params;
+    const { title, price, image, description } = route.params;
 
     const numericPrice = parseFloat(price.replace(/[^0-9.]/g, '')); // haalt getal uit prijsstring
     const [quantity, setQuantity] = useState(1);
@@ -22,7 +22,8 @@ const DetailsScreen = ({ route }) => {
             )}
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.price}>Prijs per stuk: {price}</Text>
-            <Text style={styles.description}>This is a great product</Text>
+           <Text style={styles.description}>{description}</Text>
+
 
             <View style={styles.counterContainer}>
                 <TouchableOpacity style={styles.counterButton} onPress={decreaseQuantity}>

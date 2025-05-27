@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const ProductCard = ({ title, price, image }) => {
+const ProductCard = ({ title, price, image, description }) => {
     const navigation = useNavigation();
     return (
         <View style={styles.card}>
@@ -14,7 +14,7 @@ const ProductCard = ({ title, price, image }) => {
             <Text style={styles.price}>{price}</Text>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate("Details", { title, price, image })}
+                onPress={() => navigation.navigate("Details", { title, price, image, description })}
 
             >
                 <Text style={styles.buttonText}>Add to Cart</Text>
