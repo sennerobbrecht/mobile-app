@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     counterButton: {
-        backgroundColor: "#4caf50",
+        backgroundColor: "#FF0000",
         paddingHorizontal: 16,
         paddingVertical: 10,
         borderRadius: 8,

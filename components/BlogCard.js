@@ -1,70 +1,71 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const BlogCard = ({ title, image, author, date }) => {
+const BlogCard = ({ title, image, author, date, onPress }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={onPress} style={styles.card}>
       <Image source={{ uri: image }} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       <View style={styles.footer}>
         <Text style={styles.author}>{author}</Text>
         <Text style={styles.date}>{date}</Text>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Lees meer</Text>
-      </TouchableOpacity>
-    </View>
+      <Text style={styles.readMore}>Lees meer</Text>
+    </TouchableOpacity>
   );
 };
+
 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
-    borderRadius: 12,
+    borderRadius: 10,
     padding: 15,
     marginBottom: 20,
-    width: "100%",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
   },
+
   image: {
+    width: "100%",
     height: 180,
-    borderRadius: 10,
+    borderRadius: 8,
     marginBottom: 10,
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "600",
     marginBottom: 8,
-    color: "#333",
   },
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 5,
+    marginBottom: 10,
   },
   author: {
     fontSize: 12,
-    color: "#555",
+    color: "#666",
   },
   date: {
     fontSize: 12,
-    color: "#555",
+    color: "#666",
   },
-  button: {
-    backgroundColor: "#FF0000",
-    paddingVertical: 8,
-    borderRadius: 6,
-    marginTop: 10,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#fff",
+  readMore: {
+    color: "#FF0000",
     fontWeight: "bold",
+    textAlign: "right",
   },
+
 });
 
 export default BlogCard;
+
+
+
+

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import BlogCard from "../components/BlogCard";
+import { useNavigation } from '@react-navigation/native';
+
+
 
 const BlogsScreen = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -20,7 +24,6 @@ const BlogsScreen = () => {
         const data = await response.json();
 
         const items = data.items.map(item => {
-             console.log("Blog data:", item.fieldData);
           const date = new Date(item.fieldData.publicatiedatum).toLocaleDateString("nl-BE", {
             day: "2-digit",
             month: "long",
@@ -33,6 +36,7 @@ const BlogsScreen = () => {
             image: item.fieldData.afbeelding?.url || "https://via.placeholder.com/300x180",
             author: item.fieldData.auteur || "Onbekend",
             date,
+            "blog-inhoud": item.fieldData["blog-inhoud"] || "",
           };
         });
 
@@ -60,16 +64,18 @@ const BlogsScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       {blogs.map(blog => (
         <BlogCard
-          key={blog.id}
+         key={blog.id}
           title={blog.title}
           image={blog.image}
           author={blog.author}
           date={blog.date}
+          onPress={() => navigation.navigate("BlogDetail", { blog })}
         />
       ))}
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
