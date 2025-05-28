@@ -1,29 +1,66 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import BlogCard from "../components/BlogCard";
 
-const Blogs = () => {
-  const blogData = [
-    {
-      title: "Een dag met de luchtballon",
-      image: "https://via.placeholder.com/600x300.png?text=Ballonvaart",
-      author: "Senne Robbrecht",
-      date: "28 mei 2025",
-    },
-    {
-      title: "Tips voor je eerste vaart",
-      image: "https://via.placeholder.com/600x300.png?text=Tips+Ballon",
-      author: "Ella Robbrecht",
-      date: "26 mei 2025",
-    },
-  ];
+const BlogsScreen = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("https://api.webflow.com/v2/collections/681b37e05acd11cf6d34172a/items", {
+          headers: {
+            Authorization: "Bearer 67140fb96a79dbf4de24c2db94a56d50998d98c5dd3de965f8ead368fa029268",
+            "accept-version": "1.0.0",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        const items = data.items.map(item => {
+             console.log("Blog data:", item.fieldData);
+          const date = new Date(item.fieldData.publicatiedatum).toLocaleDateString("nl-BE", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          });
+
+          return {
+            id: item._id,
+            title: item.fieldData.name || "Geen titel",
+            image: item.fieldData.afbeelding?.url || "https://via.placeholder.com/300x180",
+            author: item.fieldData.auteur || "Onbekend",
+            date,
+          };
+        });
+
+        setBlogs(items);
+      } catch (error) {
+        console.error("Fout bij ophalen blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4caf50" />
+        <Text>Blogs laden...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Onze Blog</Text>
-      {blogData.map((blog, index) => (
+      {blogs.map(blog => (
         <BlogCard
-          key={index}
+          key={blog.id}
           title={blog.title}
           image={blog.image}
           author={blog.author}
@@ -37,15 +74,12 @@ const Blogs = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#f5f5f5",
   },
-  header: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-    color: "#333",
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
-export default Blogs;
+export default BlogsScreen;
