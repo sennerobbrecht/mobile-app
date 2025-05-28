@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Welkom bij de Ballonnen App</Text>
 
       <TouchableOpacity
@@ -32,17 +32,14 @@ const HomeScreen = () => {
         <Text style={styles.cardTitle}>ℹ️ Over Ons</Text>
         <Text style={styles.cardText}>Meer info over het ballonbedrijf</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f0f8ff",
-    alignItems: "center",
-    justifyContent: "center",
     padding: 20,
+    backgroundColor: "#f0f8ff",
   },
   title: {
     fontSize: 28,
