@@ -6,8 +6,8 @@ const BlogDetail = ({ route }) => {
 
   const plainTextContent = blog["blog-inhoud"]
     ? blog["blog-inhoud"]
-        .replace(/<[^>]*>?/gm, "")      // verwijder HTML-tags
-        .replace(/&nbsp;/g, " ")        // verwijder HTML-code
+        .replace(/<[^>]*>?/gm, "")     
+        .replace(/&nbsp;/g, " ")       
         .trim()
     : "Geen inhoud beschikbaar.";
 
@@ -17,7 +17,7 @@ const BlogDetail = ({ route }) => {
         <Image
           source={{ uri: blog.image }}
           style={styles.image}
-          resizeMode="contain" // toont hele afbeelding
+          resizeMode="contain" 
         />
       )}
 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: undefined,
-    aspectRatio: 3 / 2, // pas aan naar verhouding van je Webflow-afbeeldingen
+    aspectRatio: 3 / 2,
     borderRadius: 12,
     marginBottom: 20,
   },

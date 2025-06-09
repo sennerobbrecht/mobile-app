@@ -38,7 +38,7 @@ const ProductScreen = () => {
           const categoryName = categoryIdToName[categoryId] || "Onbekend";
 
           return {
-            id: item.product.id, // <-- BELANGRIJK!
+            id: item.product.id, 
             title: item.product.fieldData["name"] || "Geen naam",
             price: item.skus?.[0]?.fieldData?.price?.value
               ? `$${(item.skus[0].fieldData.price.value / 100).toFixed(2)}`
@@ -120,7 +120,7 @@ const ProductScreen = () => {
         {filteredAndSortedProducts.map((product) => (
           <ProductCard
             key={product.id}
-            id={product.id} // <-- HIER TOEGEVOEGD!
+            id={product.id} 
             title={product.title}
             price={product.price}
             image={product.image}

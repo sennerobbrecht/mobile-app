@@ -8,7 +8,7 @@ import BlogDetail from './screens/BlogDetail';
 
 
 
-import { WishlistProvider } from "./context/WishlistContext"; // <--- toevoegen
+import { WishlistProvider } from "./context/WishlistContext"; 
 import Wishlist from './screens/Wishlist';
 import Contact from './screens/Contact';
 

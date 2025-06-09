@@ -33,12 +33,12 @@ const BlogsScreen = () => {
           });
 
           return {
-            id: item.id,  // <-- HIER DE FIX!
+            id: item.id,  
             title: item.fieldData.name || "Geen titel",
             image: item.fieldData.afbeelding?.url || "https://via.placeholder.com/300x180",
             author: item.fieldData.auteur || "Onbekend",
-            date,     // leesbare datum (string)
-            dateObj,  // ECHTE datum (voor sorteren)
+            date,    
+            dateObj,  
             "blog-inhoud": item.fieldData["blog-inhoud"] || "",
           };
         });
@@ -54,7 +54,7 @@ const BlogsScreen = () => {
     fetchBlogs();
   }, []);
 
-  // Hier filteren en sorteren we op de echte data
+
   let shownBlogs = blogs
     .filter(blog =>
       blog.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -74,7 +74,7 @@ const BlogsScreen = () => {
       }
     });
 
-  // Debug: check of alle IDs uniek zijn
+
   console.log("Blog IDs:", shownBlogs.map(blog => blog.id));
 
   if (loading) {
