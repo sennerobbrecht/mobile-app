@@ -32,6 +32,14 @@ const HomeScreen = () => {
         <Text style={styles.cardTitle}>ℹ️ Whishlist</Text>
         <Text style={styles.cardText}>Bekijk hier jouw Whislist</Text>
       </TouchableOpacity>
+
+        <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigation.navigate("Contact")}
+      >
+        <Text style={styles.cardTitle}>ℹ️ Contact</Text>
+        <Text style={styles.cardText}>Contact</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

@@ -33,7 +33,7 @@ const BlogsScreen = () => {
           });
 
           return {
-            id: item._id,
+            id: item.id,  // <-- HIER DE FIX!
             title: item.fieldData.name || "Geen titel",
             image: item.fieldData.afbeelding?.url || "https://via.placeholder.com/300x180",
             author: item.fieldData.auteur || "Onbekend",
@@ -73,6 +73,9 @@ const BlogsScreen = () => {
           return 0;
       }
     });
+
+  // Debug: check of alle IDs uniek zijn
+  console.log("Blog IDs:", shownBlogs.map(blog => blog.id));
 
   if (loading) {
     return (
