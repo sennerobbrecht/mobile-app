@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import BlogCard from "../components/BlogCard";
+import FilterBlogs from "../components/FilterBlogs";
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const BlogsScreen = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -24,7 +25,8 @@ const BlogsScreen = () => {
         const data = await response.json();
 
         const items = data.items.map(item => {
-          const date = new Date(item.fieldData.publicatiedatum).toLocaleDateString("nl-BE", {
+          const dateObj = new Date(item.fieldData.publicatiedatum);
+          const date = dateObj.toLocaleDateString("nl-BE", {
             day: "2-digit",
             month: "long",
             year: "numeric",
@@ -35,7 +37,8 @@ const BlogsScreen = () => {
             title: item.fieldData.name || "Geen titel",
             image: item.fieldData.afbeelding?.url || "https://via.placeholder.com/300x180",
             author: item.fieldData.auteur || "Onbekend",
-            date,
+            date,     // leesbare datum (string)
+            dateObj,  // ECHTE datum (voor sorteren)
             "blog-inhoud": item.fieldData["blog-inhoud"] || "",
           };
         });
@@ -51,6 +54,26 @@ const BlogsScreen = () => {
     fetchBlogs();
   }, []);
 
+  // Hier filteren en sorteren we op de echte data
+  let shownBlogs = blogs
+    .filter(blog =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "date-desc":
+          return b.dateObj - a.dateObj;
+        case "date-asc":
+          return a.dateObj - b.dateObj;
+        case "name-asc":
+          return a.title.localeCompare(b.title);
+        case "name-desc":
+          return b.title.localeCompare(a.title);
+        default:
+          return 0;
+      }
+    });
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -62,9 +85,15 @@ const BlogsScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {blogs.map(blog => (
+      <FilterBlogs
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        sortOption={sortOption}
+        onSortChange={setSortOption}
+      />
+      {shownBlogs.map(blog => (
         <BlogCard
-         key={blog.id}
+          key={blog.id}
           title={blog.title}
           image={blog.image}
           author={blog.author}
@@ -75,7 +104,6 @@ const BlogsScreen = () => {
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

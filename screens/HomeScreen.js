@@ -27,10 +27,10 @@ const HomeScreen = () => {
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate("OverOns")}
+        onPress={() => navigation.navigate("Wishlist")}
       >
-        <Text style={styles.cardTitle}>ℹ️ Over Ons</Text>
-        <Text style={styles.cardText}>Meer info over het ballonbedrijf</Text>
+        <Text style={styles.cardTitle}>ℹ️ Whishlist</Text>
+        <Text style={styles.cardText}>Bekijk hier jouw Whislist</Text>
       </TouchableOpacity>
     </ScrollView>
   );

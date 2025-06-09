@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useWishlist } from "../context/WishlistContext";
 
 const DetailsScreen = ({ route }) => {
-    const { title, price, image, description } = route.params;
+    const { id, title, price, image, description } = route.params;
 
-    const numericPrice = parseFloat(price.replace(/[^0-9.]/g, '')); // haalt getal uit prijsstring
+    const numericPrice = parseFloat(price.replace(/[^0-9.]/g, ''));
     const [quantity, setQuantity] = useState(1);
+
+    const { isWishlisted, toggleWishlist } = useWishlist();
 
     const increaseQuantity = () => setQuantity(prev => prev + 1);
     const decreaseQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
@@ -22,16 +25,24 @@ const DetailsScreen = ({ route }) => {
             )}
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.price}>Prijs per stuk: {price}</Text>
-           <Text style={styles.description}>{description}</Text>
+            <Text style={styles.description}>{description}</Text>
 
-
-            <View style={styles.counterContainer}>
-                <TouchableOpacity style={styles.counterButton} onPress={decreaseQuantity}>
-                    <Text style={styles.counterButtonText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{quantity}</Text>
-                <TouchableOpacity style={styles.counterButton} onPress={increaseQuantity}>
-                    <Text style={styles.counterButtonText}>+</Text>
+            <View style={styles.counterHeartRow}>
+                <View style={styles.counterContainer}>
+                    <TouchableOpacity style={styles.counterButton} onPress={decreaseQuantity}>
+                        <Text style={styles.counterButtonText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.quantity}>{quantity}</Text>
+                    <TouchableOpacity style={styles.counterButton} onPress={increaseQuantity}>
+                        <Text style={styles.counterButtonText}>+</Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                    style={styles.heartContainer}
+                    onPress={() => toggleWishlist(id)}
+                    activeOpacity={0.7}
+                >
+                    <Text style={styles.heart}>{isWishlisted(id) ? "❤️" : "🤍"}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -52,16 +63,19 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 8,
         marginBottom: 20,
+        marginTop: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 10,
+        textAlign: "center",
     },
     price: {
         fontSize: 20,
         color: "#4caf50",
         marginBottom: 10,
+        textAlign: "center",
     },
     description: {
         fontSize: 16,
@@ -69,16 +83,22 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: "center",
     },
+    counterHeartRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 20,
+    },
     counterContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 20,
     },
     counterButton: {
         backgroundColor: "#FF0000",
         paddingHorizontal: 16,
         paddingVertical: 10,
         borderRadius: 8,
+        marginHorizontal: 2,
     },
     counterButtonText: {
         color: "#fff",
@@ -87,12 +107,19 @@ const styles = StyleSheet.create({
     },
     quantity: {
         fontSize: 20,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
+    },
+    heartContainer: {
+        marginLeft: 20,
+    },
+    heart: {
+        fontSize: 32,
     },
     total: {
         fontSize: 22,
         fontWeight: "bold",
         color: "#000",
+        textAlign: "center",
     },
 });
 
